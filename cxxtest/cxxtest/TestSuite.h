@@ -26,11 +26,11 @@ namespace CxxTest
         virtual void setUp();
         virtual void tearDown();
     };
-    
+
     class AbortTest {};
     void doAbortTest();
 #   define TS_ABORT() CxxTest::doAbortTest()
-    
+
     bool abortTestOnFail();
     void setAbortTestOnFail( bool value = CXXTEST_DEFAULT_ABORT );
 
@@ -54,7 +54,7 @@ namespace CxxTest
                          const char *yExpr, Y y,
                          const char *message )
     {
-        if ( !equals( x, y ) ) {
+        if ( !CxxTest::equals( x, y ) ) {
             if ( message )
                 tracker().failedTest( file, line, message );
             tracker().failedAssertEquals( file, line, xExpr, yExpr, TS_AS_STRING(x), TS_AS_STRING(y) );
@@ -144,7 +144,7 @@ namespace CxxTest
 
     template<class X, class Y, class R>
     void doAssertRelation( const char *file, unsigned line,
-                           const char *rExpr, const R &r, 
+                           const char *rExpr, const R &r,
                            const char *xExpr, X x,
                            const char *yExpr, Y y,
                            const char *message )
@@ -173,7 +173,7 @@ namespace CxxTest
         if ( !delta( x, y, d ) ) {
             if ( message )
                 tracker().failedTest( file, line, message );
-            
+
             tracker().failedAssertDelta( file, line, xExpr, yExpr, dExpr,
                                          TS_AS_STRING(x), TS_AS_STRING(y), TS_AS_STRING(d) );
             TS_ABORT();
@@ -184,7 +184,7 @@ namespace CxxTest
                              const char *expr, const char *type,
                              bool otherThrown,
                              const char *message );
-    
+
     void doFailAssertThrowsNot( const char *file, unsigned line,
                                 const char *expression, const char *message );
 
@@ -232,23 +232,23 @@ namespace CxxTest
     // TS_ASSERT
 #   define ___ETS_ASSERT(f,l,e,m) { if ( !(e) ) CxxTest::doFailAssert( (f), (l), #e, (m) ); }
 #   define ___TS_ASSERT(f,l,e,m) { _TS_TRY { ___ETS_ASSERT(f,l,e,m); } __TS_CATCH(f,l) }
-    
+
 #   define _ETS_ASSERT(f,l,e) ___ETS_ASSERT(f,l,e,0)
 #   define _TS_ASSERT(f,l,e) ___TS_ASSERT(f,l,e,0)
-    
+
 #   define ETS_ASSERT(e) _ETS_ASSERT(__FILE__,__LINE__,e)
 #   define TS_ASSERT(e) _TS_ASSERT(__FILE__,__LINE__,e)
-    
+
 #   define _ETSM_ASSERT(f,l,m,e) ___ETS_ASSERT(f,l,e,TS_AS_STRING(m) )
 #   define _TSM_ASSERT(f,l,m,e) ___TS_ASSERT(f,l,e,TS_AS_STRING(m) )
 
 #   define ETSM_ASSERT(m,e) _ETSM_ASSERT(__FILE__,__LINE__,m,e)
 #   define TSM_ASSERT(m,e) _TSM_ASSERT(__FILE__,__LINE__,m,e)
-    
+
     // TS_ASSERT_EQUALS
 #   define ___ETS_ASSERT_EQUALS(f,l,x,y,m) CxxTest::doAssertEquals( (f), (l), #x, (x), #y, (y), (m) )
 #   define ___TS_ASSERT_EQUALS(f,l,x,y,m) { _TS_TRY { ___ETS_ASSERT_EQUALS(f,l,x,y,m); } __TS_CATCH(f,l) }
-    
+
 #   define _ETS_ASSERT_EQUALS(f,l,x,y) ___ETS_ASSERT_EQUALS(f,l,x,y,0)
 #   define _TS_ASSERT_EQUALS(f,l,x,y) ___TS_ASSERT_EQUALS(f,l,x,y,0)
 
@@ -264,7 +264,7 @@ namespace CxxTest
     // TS_ASSERT_SAME_DATA
 #   define ___ETS_ASSERT_SAME_DATA(f,l,x,y,s,m) CxxTest::doAssertSameData( (f), (l), #x, (x), #y, (y), #s, (s), (m) )
 #   define ___TS_ASSERT_SAME_DATA(f,l,x,y,s,m) { _TS_TRY { ___ETS_ASSERT_SAME_DATA(f,l,x,y,s,m); } __TS_CATCH(f,l) }
-    
+
 #   define _ETS_ASSERT_SAME_DATA(f,l,x,y,s) ___ETS_ASSERT_SAME_DATA(f,l,x,y,s,0)
 #   define _TS_ASSERT_SAME_DATA(f,l,x,y,s) ___TS_ASSERT_SAME_DATA(f,l,x,y,s,0)
 
@@ -366,7 +366,7 @@ namespace CxxTest
     // TS_ASSERT_DELTA
 #   define ___ETS_ASSERT_DELTA(f,l,x,y,d,m) CxxTest::doAssertDelta( (f), (l), #x, (x), #y, (y), #d, (d), (m) )
 #   define ___TS_ASSERT_DELTA(f,l,x,y,d,m) { _TS_TRY { ___ETS_ASSERT_DELTA(f,l,x,y,d,m); } __TS_CATCH(f,l) }
-    
+
 #   define _ETS_ASSERT_DELTA(f,l,x,y,d) ___ETS_ASSERT_DELTA(f,l,x,y,d,0)
 #   define _TS_ASSERT_DELTA(f,l,x,y,d) ___TS_ASSERT_DELTA(f,l,x,y,d,0)
 
@@ -502,13 +502,13 @@ namespace CxxTest
     CXXTEST_COMPARISONS( signed CXXTEST_SMALL, unsigned CXXTEST_BIG, unsigned CXXTEST_BIG ) \
     CXXTEST_COMPARISONS( signed CXXTEST_BIG, unsigned CXXTEST_SMALL, unsigned CXXTEST_BIG )
 
-    CXXTEST_SMALL_BIG( char, short )    
+    CXXTEST_SMALL_BIG( char, short )
     CXXTEST_SMALL_BIG( char, int )
     CXXTEST_SMALL_BIG( short, int )
     CXXTEST_SMALL_BIG( char, long )
     CXXTEST_SMALL_BIG( short, long )
     CXXTEST_SMALL_BIG( int, long )
-        
+
 #   ifdef _CXXTEST_LONGLONG
     CXXTEST_SMALL_BIG( char, _CXXTEST_LONGLONG )
     CXXTEST_SMALL_BIG( short, _CXXTEST_LONGLONG )
