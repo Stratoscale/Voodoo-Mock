@@ -53,7 +53,8 @@ def popenSuite( suite ):
                                 stderr = subprocess.STDOUT,
                                 env = dict( os.environ,
                                     GCOV_PREFIX_STRIP = "100",
-                                    GCOV_PREFIX = os.path.dirname( suite ) ) )
+                                    GCOV_PREFIX = os.path.dirname( suite ),
+                                    LC_ALL = "C" ) )
     else:
         raise Exception( "Suite type is not recongnized: %s" % suite )
 
